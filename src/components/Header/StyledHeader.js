@@ -4,40 +4,55 @@ const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 24px;
-    height: 62px;
-    background: #56ab2f;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #a8e063, #56ab2f);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #a8e063, #56ab2f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    a{
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-        h1{
-            font-family: 'Poppins';
-            font-size: 24px;
-            color: black;
-        }
-    }
+    padding: 36px 96px;
 
-    .wrapper-input{
+    form{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        height: 36px;
         position: relative;
-        input{
-            height: 12px;
-            border-radius: 6px;
-            border: none;
-            padding: 12px 12px;
-        }
-        svg{
+        button{
+            height: 34px;
+            width: 34px;
             position: absolute;
-            top: 6px;
-            right: 12px;
-            width: 24px;
-            height: 24px;
-            color: #F3F3F3;
+            top: 0px;
+            border: 0;
+            right: 0px;
+            background-color: rgba(255,255,255,0.0);
+            cursor: pointer;
+            svg{
+                width: 100%;
+                height: 100%;
+                color: #2586FA;
+            }
+        }
+
+        input{
+            height: 100%;
+            border-radius: 12px;
+            border: 0;
+            background-color: #253755;
+            width: 100%;
+            padding-left: 20px;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 14px;
+            color: #586E94;
+        }
+
+        input::placeholder{
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 14px;
+            color: #586E94;
         }
     }
-
 `
 
 export default StyledHeader

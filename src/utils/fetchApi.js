@@ -4,7 +4,7 @@ import axios from 'axios'
 /* const URL = 'http://localhost:2500'  */
 
 //-----API DEPLOY URL-----
-const URL = 'https://test-atelier-seb.herokuapp.com/'
+const URL = 'https://api.themoviedb.org/3/movie/'
 
 export const fetchApi = (config) => {
   //interceptors handle network error

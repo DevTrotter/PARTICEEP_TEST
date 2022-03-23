@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import {BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { Home } from './Page/Home';
-import { Bio } from './Page/Bio'
 import store from './redux/store/index.js';
 
 const Index = () => {
@@ -11,7 +10,6 @@ const Index = () => {
     <Router>
       <Routes>
         <Route exact path='/' element={<Home />}/>
-        <Route exact path='/id/:slug' element={<Bio/>}/>
         <Route
           path="*"
           element={<Navigate to="/" />}
