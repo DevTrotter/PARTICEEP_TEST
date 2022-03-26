@@ -11,18 +11,17 @@ import { getMoviePopular } from '../../redux/action/movieAction/movieAction'
 export const Slider = () => {
     const dispatch = useDispatch()
     const mostPopular = useSelector((state => state.movies.mostPopular))
-    const fetchMovie = async() => {
+    const fetchMovie = () => {
         dispatch(getMoviePopular())
     }
     useEffect(() => {
         fetchMovie()
-        console.log(mostPopular)
     }, [])
     return (
         <StyledSlider>
             <Swiper
-                slidesPerView={4}
-                spaceBetween={50}
+                slidesPerView={6}
+                spaceBetween={84}
                 freeMode={true}
                 slidesPerGroup={1}
                 loopFillGroupWithBlank={true}
@@ -34,10 +33,21 @@ export const Slider = () => {
                 className="mySwiper"
             >
                 { mostPopular &&
-                    mostPopular.map(movie =>
-                    <SwiperSlide>
-                        <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}/>
-                    </SwiperSlide>
+                    mostPopular.map((movie, i) => i < 10
+                    ?
+
+                        <SwiperSlide key={movie.original_title}>
+                            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}/>
+                            <div className="info-container">
+                                <h5>{movie.original_title}</h5>
+                                <span>{new Date(movie.release_date).toISOString().slice(0, 4)}</span>
+                            </div>
+                        </SwiperSlide>
+
+                    :
+
+                        null
+                    
                     )
                 }
             </Swiper>

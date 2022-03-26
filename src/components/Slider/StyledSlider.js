@@ -8,6 +8,7 @@ const StyledSlider = styled.div`
     }
 
     .swiper-slide {
+        width: 150px!important;
         text-align: center;
         font-size: 18px;
         background: #fff;
@@ -29,9 +30,40 @@ const StyledSlider = styled.div`
 
     .swiper-slide img {
         display: block;
-        width: 100%;
+        width: 150px;
+        border-radius: 12px;
         height: 100%;
         object-fit: cover;
+        cursor: pointer;
+    }
+
+    .swiper-slide{
+        background: rgba(255,255,255, 0);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-container{
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0);
+        text-align: start;
+        padding: 12px;
+        h5{
+            width: 100%;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 12px;
+            color: #FFFFFF;
+        }
+        span{
+            width: 100%;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            color: #586E94;
+        }
     }
 `
 
