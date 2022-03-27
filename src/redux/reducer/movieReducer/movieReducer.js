@@ -5,15 +5,14 @@ import {
     FETCH_NEXT_MOVIE_BEGIN,
     GET_NEXT_MOVIE_SUCCESS,
     FETCH_NEXT_MOVIE_FAIL,
-    ORDER_CHANGE,
-    GENDER_CHANGE,
+    FILTERS_CHANGE,
 } from '../../action/movieAction/movieAction'
 
 const initialState = {
     allMovies: [],
-    sortBy: {
-        order: 'default',
-        filter: ''
+    filters: {
+        "genderBy": "Tous",
+        "sortBy": "None"
     },
     mostPopular: [],
     loading: false
@@ -47,11 +46,10 @@ export default (state = initialState, action) => {
                 error: ''
             }
         case GET_NEXT_MOVIE_SUCCESS:
-            
             return {
                 ...state,
                 loading: false,
-                allMovies: state.allMovies.concat(action.payload),
+                allMovies: action.payload,
             }
         case FETCH_NEXT_MOVIE_FAIL:
             return {
@@ -59,22 +57,11 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: action.payload
             }
-        case ORDER_CHANGE:
+        case FILTERS_CHANGE:
             return {
                 ...state,
-                sortBy: {
-                    ...state.sortBy,
-                    order: action.payload.value,
-                },
+                filters: action.payload.filters,
                 allMovies: action.payload.array
-            }
-        case GENDER_CHANGE:
-            return {
-                ...state,
-                sortBy: {
-                    ...state.sortBy,
-                    filter: action.payload,
-                }
             }
         default:
             return state;

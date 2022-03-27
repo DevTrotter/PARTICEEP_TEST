@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import StyledListMovies from './StyledListMovies'
 import { useSelector, useDispatch } from 'react-redux';
 import { Card } from '../Card/Card';
@@ -7,18 +7,18 @@ import { getNextMovie } from '../../redux/action/movieAction/movieAction'
 
 export const ListMovies = () => {
     const dispatch = useDispatch()
-    const {allMovies} = useSelector((state => state.movies))
+    const {allMovies, filters} = useSelector((state => state.movies))
     const [page, setPage] = useState(1)
 
     const fetchApi = () => {
         if(page > 1){
-            dispatch(getNextMovie(page, allMovies))
+            dispatch(getNextMovie(page, allMovies, filters))
         }
     }
 
     useEffect(() => {
         fetchApi()
-    },[page])
+    }, [page])
 
     return (
         <StyledListMovies>
@@ -34,7 +34,7 @@ export const ListMovies = () => {
             >
 
             </InfiniteScroll>
-            { allMovies &&
+            {allMovies &&
                 allMovies.map((movie, i) => <Card key={movie.original_title + i} {...movie}/>)
             }
         </StyledListMovies>

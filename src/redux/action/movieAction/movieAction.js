@@ -14,6 +14,7 @@ export const getMoviePopular = () => async dispatch => {
             type: GET_POPULAR_MOVIE_SUCCESS,
             payload: movies.results
         })
+        return movies.results
     } catch(err) {
         dispatch({
             type: FETCH_POPULAR_MOVIE_FAIL,
@@ -22,7 +23,7 @@ export const getMoviePopular = () => async dispatch => {
     }
 }
 
-export const getNextMovie = (page, allMovies, order) => async dispatch => {
+export const getNextMovie = (page, allMovies, filters) => async dispatch => {
     dispatch({
         type: FETCH_NEXT_MOVIE_BEGIN
     })
@@ -31,10 +32,12 @@ export const getNextMovie = (page, allMovies, order) => async dispatch => {
             method: 'GET',
             url: `popular?api_key=8be38117fb0fafa10c3ed86f8f216265&language=fr-FR&page=${page}`
         })
-        const movies = res.data
+        const NewMovies = res.data.results
+        allMovies = await allMovies.concat(NewMovies)
+        allMovies = await dispatch(sortFetch(filters, allMovies))
         dispatch({
             type: GET_NEXT_MOVIE_SUCCESS,
-            payload: movies.results
+            payload: allMovies
         })
     } catch(err) {
         dispatch({
@@ -44,63 +47,77 @@ export const getNextMovie = (page, allMovies, order) => async dispatch => {
     }
 }
 
-export const switchSort = (type, value, array) => async dispatch => {
-    if(type === 'order'){
-        if(value === 'default'){
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+export const sortFetch = (filters, allMovies) => async dispatch => {
+    Object.entries(filters).map(([type, value]) => {
+        if (type === "genderBy") {
+            switch(value){
+                case "Action":
+                    const idActionMovie = 28
+                    allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idActionMovie))
+                break;
+                case "Horreur":
+                    const idHorrorMovie = 27
+                    allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idHorrorMovie))
+                break;
+                case "Amour":
+                    const idLoveMovie = 10749
+                    allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idLoveMovie))
+                break;
+                default:
+                    console.log('error is comming')
             }
-        }else{
-            array.sort((a,b) => {
-                if(a.original_title < b.original_title) { return -1; }
-                if(a.original_title > b.original_title) { return 1; }
-                return 0;
-            })
         }
-        dispatch({
-            type: ORDER_CHANGE,
-            payload: {
-                value: value,
-                array: array
+        if (type === 'sortBy') {
+            if (value === "Ordre alphabétique") {
+                allMovies.sort((a,b) => a.original_title < b.original_title ? -1 : 1)
             }
-        })
-    }else {
-        dispatch({
-            type: GENDER_CHANGE,
-            payload: value
-        })
-    }
+        }
+    })
+    return allMovies
 }
 
-// export const filterByGender = (array, gender) => async dispatch => {
-//     if(array.length > 0){
-//         switch(gender) {
-//             case 'Tous':
-//                 console.log(array);
-//             break;
-//             case 'Action':
-//                 console.log("bonjour");
-//             break;
-//             case 'Horreur':
-//                 console.log("bonjour");
-//             break;
-//             case 'Amour':
-//                 console.log("bonjour");
-//             break;
-//             default:
-//                 console.log('error');
-//         }
-//         dispatch({
-//             type: FILTER_BY_GENDER_SUCCESS,
-//             payload: array
-//         })
-//     }
-// }
+export const switchSort = (value, type, filters) => async dispatch => {
+    let allMovies = await dispatch(getMoviePopular())
+    filters = {
+        ...filters,
+        [type]: value
+    }
+    console.log(filters)
+    Object.entries(filters).map(([type, value]) => {
+        if (type === "genderBy") {
+            switch(value){
+                case "Action":
+                    const idActionMovie = 28
+                    allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idActionMovie))
+                break;
+                case "Horreur":
+                    const idHorrorMovie = 27
+                    allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idHorrorMovie))
+                break;
+                case "Amour":
+                    const idLoveMovie = 10749
+                    allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idLoveMovie))
+                break;
+                default:
+                    console.log('error is comming')
+            }
+        }
+        if (type === 'sortBy') {
+            if (value === "Ordre alphabétique") {
+                allMovies.sort((a,b) => a.original_title < b.original_title ? -1 : 1)
+            }
+        }
+    })
+    dispatch({
+        type: FILTERS_CHANGE,
+        payload: {
+            filters,
+            array: allMovies
+        }
+    })
+}
 
-// export const FILTER_BY_GENDER_SUCCESS = 'FILTER_BY_GENDER_SUCCESS'
-export const ORDER_CHANGE = 'ORDER_CHANGE'
-export const GENDER_CHANGE = 'GENDER_CHANGE'
+export const FILTERS_CHANGE = 'FILTERS_CHANGE'
 export const FETCH_NEXT_MOVIE_BEGIN = 'FETCH_NEXT_MOVIE_BEGIN'
 export const GET_NEXT_MOVIE_SUCCESS = 'GET_NEXT_MOVIE_SUCCESS'
 export const FETCH_NEXT_MOVIE_FAIL = 'FETCH_NEXT_MOVIE_FAIL'

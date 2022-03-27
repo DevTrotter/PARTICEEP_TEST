@@ -17,6 +17,7 @@ export const Slider = () => {
     useEffect(() => {
         fetchMovie()
     }, [])
+
     return (
         <StyledSlider>
             <Swiper
@@ -26,16 +27,14 @@ export const Slider = () => {
                 slidesPerGroup={1}
                 loopFillGroupWithBlank={true}
                 pagination={{
-                clickable: true,
+                    clickable: true,
                 }}
                 navigation={true}
                 modules={[FreeMode, Navigation]}
                 className="mySwiper"
             >
-                { mostPopular &&
-                    mostPopular.map((movie, i) => i < 10
+                {mostPopular?.map((movie, i) => i < 10
                     ?
-
                         <SwiperSlide key={movie.original_title}>
                             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}/>
                             <div className="info-container">
@@ -43,11 +42,8 @@ export const Slider = () => {
                                 <span>{new Date(movie.release_date).toISOString().slice(0, 4)}</span>
                             </div>
                         </SwiperSlide>
-
                     :
-
                         null
-                    
                     )
                 }
             </Swiper>

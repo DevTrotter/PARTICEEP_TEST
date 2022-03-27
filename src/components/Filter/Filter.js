@@ -3,17 +3,18 @@ import StyledFilter from './StyledFilter'
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import { switchSort} from '../../redux/action/movieAction/movieAction'
+import { switchSort } from '../../redux/action/movieAction/movieAction'
 import { useSelector, useDispatch } from 'react-redux';
 
 export const Filter = () => {
-    
-    const dispatch = useDispatch()
-    const {allMovies, sortBy} = useSelector((state => state.movies))
 
-    const handleChange = (event, option) => {
-        option === 'order' ? dispatch(switchSort('order' ,event.target.value, allMovies)) : dispatch(switchSort('filter' ,event.target.value, allMovies))
-    };
+    const dispatch = useDispatch()
+    const { filters } = useSelector((state => state.movies))
+
+    const handleChange = (event, type) => {
+        const value = event.target.value
+        dispatch(switchSort(value, type, filters))
+    }
 
     return (
         <StyledFilter>
@@ -25,12 +26,12 @@ export const Filter = () => {
                         <Select
                         className="selector"
                         style={{width: "150px", height: "40px"}}
-                        value={sortBy.order}
-                        onChange={(e) => handleChange(e, 'order')}
+                        value={filters.sortBy}
+                        onChange={(e) => handleChange(e, 'sortBy')}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
                         >
-                            <MenuItem value="default">
+                            <MenuItem value="None">
                                 <em>None</em>
                             </MenuItem>
                             <MenuItem value={'Ordre alphabétique'}>Ordre alphabétique</MenuItem>
@@ -43,17 +44,14 @@ export const Filter = () => {
                         <Select
                         className="selector"
                         style={{width: "96px", height: "40px"}}
-                        value={sortBy.filter}
-                        onChange={handleChange}
+                        value={filters.genderBy}
+                        onChange={(e) => handleChange(e, 'genderBy')}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
                         >
-                            <MenuItem value="">
-                                <em>Genre</em>
-                            </MenuItem>
                             <MenuItem value={'Tous'}>Tous</MenuItem>
                             <MenuItem value={'Action'}>Action</MenuItem>
-                            <MenuItem value={'Horeur'}>Horeur</MenuItem>
+                            <MenuItem value={'Horreur'}>Horreur</MenuItem>
                             <MenuItem value={'Amour'}>Amour</MenuItem>
                         </Select>
                     </FormControl>
