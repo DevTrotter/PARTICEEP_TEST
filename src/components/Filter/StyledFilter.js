@@ -55,6 +55,24 @@ const StyledFilter = styled.div`
             margin-left: 36px;
         }
     }
+
+    @media (max-width: 600px) {
+        h1{
+            padding-left: 36px;
+            font-size: 18px;
+        }
+        .param{
+            flex-direction: column;
+            align-items: start;
+            padding: 24px 0px 24px 36px;
+            .container-filter{
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                margin-left: 0px;
+            }
+        }
+    }
 `
 
 export default StyledFilter

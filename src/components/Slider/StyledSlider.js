@@ -2,18 +2,13 @@ import styled from "styled-components";
 
 const StyledSlider = styled.div`
     .swiper {
-        width: 80%;
+        width: 100%;
         height: 100%;
-        padding: 0 48px;
     }
 
     .swiper-slide {
-        width: 150px!important;
         text-align: center;
         font-size: 18px;
-        background: #fff;
-
-        /* Center slide text vertically */
         display: -webkit-box;
         display: -ms-flexbox;
         display: -webkit-flex;
@@ -44,7 +39,7 @@ const StyledSlider = styled.div`
     }
 
     .info-container{
-        width: 100%;
+        width: 150px;
         background-color: rgba(255, 255, 255, 0);
         text-align: start;
         padding: 12px;

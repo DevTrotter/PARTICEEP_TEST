@@ -64,7 +64,7 @@ export const sortFetch = (filters, allMovies) => async dispatch => {
                     allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idLoveMovie))
                 break;
                 default:
-                    console.log('error is comming')
+                    return null
             }
         }
         if (type === 'sortBy') {
@@ -82,7 +82,6 @@ export const switchSort = (value, type, filters) => async dispatch => {
         ...filters,
         [type]: value
     }
-    console.log(filters)
     Object.entries(filters).map(([type, value]) => {
         if (type === "genderBy") {
             switch(value){
@@ -99,7 +98,7 @@ export const switchSort = (value, type, filters) => async dispatch => {
                     allMovies = allMovies.filter(movie => movie.genre_ids.find(id => id === idLoveMovie))
                 break;
                 default:
-                    console.log('error is comming')
+                    return null
             }
         }
         if (type === 'sortBy') {

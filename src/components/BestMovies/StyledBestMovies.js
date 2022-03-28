@@ -16,6 +16,17 @@ const StyledBestMovie = styled.section`
         margin: 48px 92px; 
         background-color: #2F3D57;
     }
+
+    @media (max-width: 600px) {
+        .separator{
+            width: calc(100% - 72px);
+            margin: 12px 36px 24px 36px; 
+        }
+        h1{
+            font-size: 18px;
+            padding: 48px 36px;
+        }
+    }
 `
 
 export default StyledBestMovie

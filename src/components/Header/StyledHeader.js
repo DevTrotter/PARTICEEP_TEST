@@ -53,6 +53,21 @@ const StyledHeader = styled.header`
             color: #586E94;
         }
     }
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+        align-items: start;
+        padding: 24px 36px;
+        form{
+            margin-top: 24px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        form{
+            width: 100%;
+        }
+    }
 `
 
 export default StyledHeader

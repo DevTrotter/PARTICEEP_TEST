@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const StyledCard = styled.div`
-    margin: 48px calc((100vw - 750px) / 10 );
     width: 150px;
 
     img{        
