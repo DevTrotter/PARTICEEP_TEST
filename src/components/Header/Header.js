@@ -18,7 +18,7 @@ export const Header = () => {
 
     return (
         <StyledHeader>
-            <img src={logo}/>
+            <img src={logo} alt="logo-img"/>
             <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="Rechercher un film" onChange={(e) => handleChangeInput(e)} value={valueInput}/>
                 <button type="submit">
