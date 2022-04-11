@@ -60,7 +60,7 @@ export const Slider = () => {
                             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}/>
                             <div className="info-container">
                                 <h5>{movie.original_title}</h5>
-                                <span>{new Date(movie.release_date).toISOString().slice(0, 4)}</span>
+                                <span>{movie.release_date ? new Date(movie.release_date).toISOString().slice(0, 4) : null}</span>
                             </div>
                         </SwiperSlide>
                     :
