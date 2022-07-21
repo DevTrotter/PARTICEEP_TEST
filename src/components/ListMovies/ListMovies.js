@@ -1,42 +1,17 @@
-import { useState, useEffect } from 'react'
-import StyledListMovies from './StyledListMovies'
-import { useSelector, useDispatch } from 'react-redux';
-import { Card } from '../Card/Card';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { getNextMovie } from '../../redux/action/movieAction/movieAction'
+import react, { useEffect } from "react";
+import StyledListMovies from "./StyledListMovies";
+import { useSelector, useDispatch } from "react-redux";
 
 export const ListMovies = () => {
-    const dispatch = useDispatch()
-    const {allMovies, filters} = useSelector((state => state.movies))
-    const [page, setPage] = useState(1)
+  const dispatch = useDispatch;
+  const { allMovies } = useSelector((state) => state.movies);
+  useEffect(() => {
+    console.log("bonjour");
+  });
 
-    const fetchApi = () => {
-        if(page > 1){
-            dispatch(getNextMovie(page, allMovies, filters))
-        }
-    }
-
-    useEffect(() => {
-        fetchApi()
-    }, [page])
-
-    return (
-        <StyledListMovies>
-            <InfiniteScroll
-            dataLength={allMovies.length}
-            next={() => setPage(page + 1)}
-            hasMore={true}
-            endMessage={
-                <p style={{ textAlign: 'center' }}>
-                    <b>Yay! You have seen it all</b>
-                </p>
-            }
-            >
-
-            </InfiniteScroll>
-            {allMovies &&
-                allMovies.map((movie, i) => <Card key={movie.original_title + i} {...movie}/>)
-            }
-        </StyledListMovies>
-    )
-}
+  return (
+    <StyledListMovies>
+      <h1>bonjour</h1>
+    </StyledListMovies>
+  );
+};
