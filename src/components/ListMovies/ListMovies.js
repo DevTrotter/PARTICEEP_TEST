@@ -1,17 +1,18 @@
-import react, { useEffect } from "react";
 import StyledListMovies from "./StyledListMovies";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { Card } from "../Card/Card";
 
 export const ListMovies = () => {
-  const dispatch = useDispatch;
   const { allMovies } = useSelector((state) => state.movies);
-  useEffect(() => {
-    console.log("bonjour");
-  });
+  console.log(allMovies);
 
   return (
     <StyledListMovies>
-      <h1>bonjour</h1>
+      {allMovies.length !== 0 ? (
+        allMovies?.map((movie) => <Card key={movie.id} {...movie} listMovie />)
+      ) : (
+        <h1>Pas de film à afficher 😔</h1>
+      )}
     </StyledListMovies>
   );
 };

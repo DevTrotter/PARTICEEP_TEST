@@ -1,14 +1,29 @@
-import React from 'react'
-import StyledCard from './StyledCard'
+import React from "react";
+import StyledCard from "./StyledCard";
+import Img404 from "../../assets/images/404_movie.png";
+import { IoClose } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteMovie } from "../../redux/action/movieAction/movieAction";
 
-export const Card = ({original_title, poster_path, release_date}) => {
-    return (
-        <StyledCard>
-            <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={original_title} />
-            <div>
-                <h6>{original_title}</h6>
-                <span>{release_date ? new Date(release_date).toISOString().slice(0, 4) : null}</span>
-            </div>
-        </StyledCard>
-    )
-}
+export const Card = ({ id, title, category, listMovie }) => {
+  const dispatch = useDispatch();
+  const { allMovies } = useSelector((state) => state.movies);
+  const handleClick = () => {
+    dispatch(deleteMovie(id, allMovies));
+  };
+
+  return (
+    <StyledCard>
+      <img src={Img404} alt={title} />
+      <div className="container-title">
+        <h6>{title}</h6>
+        <span>{category}</span>
+      </div>
+      {listMovie && (
+        <button onClick={handleClick}>
+          <IoClose />
+        </button>
+      )}
+    </StyledCard>
+  );
+};

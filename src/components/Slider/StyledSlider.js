@@ -7,7 +7,6 @@ const StyledSlider = styled.div`
   }
 
   .swiper-slide {
-    text-align: center;
     font-size: 18px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -23,14 +22,6 @@ const StyledSlider = styled.div`
     align-items: center;
   }
 
-  .swiper-slide img {
-    display: block;
-    width: 150px;
-    border-radius: 12px;
-    height: 225px;
-    cursor: pointer;
-  }
-
   .swiper-slide {
     background: rgba(255, 255, 255, 0);
     display: flex;
@@ -40,7 +31,6 @@ const StyledSlider = styled.div`
   .info-container {
     width: 150px;
     background-color: rgba(255, 255, 255, 0);
-    text-align: start;
     padding: 12px;
     h5 {
       width: 100%;

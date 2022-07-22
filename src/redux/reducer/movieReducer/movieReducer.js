@@ -1,7 +1,8 @@
 import {
-  FETCH_POPULAR_MOVIE_BEGIN,
-  GET_POPULAR_MOVIE_SUCCESS,
-  FETCH_POPULAR_MOVIE_FAIL,
+  FETCH_MOVIES_BEGIN,
+  GET_MOVIES_SUCCESS,
+  FETCH_MOVIES_FAIL,
+  DELETE_MOVIE_FINISH,
   FETCH_LIST_MOVIE_BEGIN,
   GET_LIST_MOVIE_SUCCESS,
   FETCH_LIST_MOVIE_FAIL,
@@ -20,23 +21,29 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_POPULAR_MOVIE_SUCCESS:
+    case GET_MOVIES_SUCCESS:
       return {
         ...state,
         loading: false,
-        mostPopular: action.payload,
+        mostPopular: action.payload.bestMovies,
+        allMovies: action.payload.movies,
       };
-    case FETCH_POPULAR_MOVIE_BEGIN:
+    case FETCH_MOVIES_BEGIN:
       return {
         ...state,
         loading: true,
         error: "",
       };
-    case FETCH_POPULAR_MOVIE_FAIL:
+    case FETCH_MOVIES_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    case DELETE_MOVIE_FINISH:
+      return {
+        ...state,
+        allMovies: action.payload,
       };
     case FETCH_LIST_MOVIE_BEGIN:
       return {

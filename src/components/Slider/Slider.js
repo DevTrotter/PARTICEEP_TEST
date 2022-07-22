@@ -5,18 +5,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { FreeMode, Navigation } from "swiper";
-import { useSelector, useDispatch } from "react-redux";
-import { getMoviePopular } from "../../redux/action/movieAction/movieAction";
-import Img404 from "../../assets/images/404_movie.png";
+import { useSelector } from "react-redux";
+import { Card } from "../Card/Card";
 
 export const Slider = () => {
   const [valueSize, SetValueSize] = useState(5);
   const [navigation, SetNavigation] = useState(true);
-  const dispatch = useDispatch();
   const mostPopular = useSelector((state) => state.movies.mostPopular);
-  const fetchMovie = () => {
-    dispatch(getMoviePopular());
-  };
 
   const handleSetWidth = () => {
     let widthScreen = window.innerWidth;
@@ -29,10 +24,6 @@ export const Slider = () => {
       SetNavigation(false);
     }
   };
-
-  useEffect(() => {
-    fetchMovie();
-  }, []);
 
   useEffect(() => {
     window.addEventListener("resize", handleSetWidth);
@@ -58,11 +49,7 @@ export const Slider = () => {
         {mostPopular?.map((movie, i) =>
           i < 10 ? (
             <SwiperSlide key={movie.id}>
-              <img src={Img404} />
-              <div className="info-container">
-                <h5>{movie.title}</h5>
-                <span>{movie.category}</span>
-              </div>
+              <Card key={movie.id} {...movie} />
             </SwiperSlide>
           ) : null
         )}

@@ -1,48 +1,41 @@
 import { movies$ } from "../../../data/movies";
-import { fetchApi } from "../../../utils/fetchApi";
 
-export const getMoviePopular = () => async (dispatch) => {
+export const getMovies = () => async (dispatch) => {
   dispatch({
-    type: FETCH_POPULAR_MOVIE_BEGIN,
+    type: FETCH_MOVIES_BEGIN,
   });
   try {
     const res = await movies$;
-    res.sort((a, b) => {
+    const bestMovies = res.sort((a, b) => {
       return b.likes - a.likes;
     });
+    const movies = res;
     dispatch({
-      type: GET_POPULAR_MOVIE_SUCCESS,
-      payload: res,
+      type: GET_MOVIES_SUCCESS,
+      payload: {
+        movies,
+        bestMovies,
+      },
     });
     return res;
   } catch (err) {
     dispatch({
-      type: FETCH_POPULAR_MOVIE_FAIL,
+      type: FETCH_MOVIES_FAIL,
       payload: err.response.data.error,
     });
   }
 };
 
-export const getListMovie = () => async (dispatch) => {
+export const deleteMovie = (idMovie, allMovies) => async (dispatch) => {
+  const newAllMovies = allMovies.filter((movie) => movie.id !== idMovie);
+
   dispatch({
-    type: FETCH_LIST_MOVIE_BEGIN,
+    type: DELETE_MOVIE_FINISH,
+    payload: newAllMovies,
   });
-  try {
-    const res = await movies$;
-    console.log(res);
-    dispatch({
-      type: GET_LIST_MOVIE_SUCCESS,
-      payload: res,
-    });
-  } catch (err) {
-    dispatch({
-      type: FETCH_LIST_MOVIE_FAIL,
-      payload: err.response.data.error,
-    });
-  }
 };
 
-export const sortFetch = (filters, allMovies) => async (dispatch) => {
+export const sortFetch = (filters, allMovies) => async () => {
   Object.entries(filters).map(([type, value]) => {
     if (type === "genderBy") {
       switch (value) {
@@ -80,7 +73,7 @@ export const sortFetch = (filters, allMovies) => async (dispatch) => {
 };
 
 export const switchSort = (value, type, filters) => async (dispatch) => {
-  let allMovies = await dispatch(getMoviePopular());
+  let allMovies = await dispatch(getMovies());
   filters = {
     ...filters,
     [type]: value,
@@ -127,10 +120,11 @@ export const switchSort = (value, type, filters) => async (dispatch) => {
   });
 };
 
+export const FETCH_MOVIES_BEGIN = "FETCH_MOVIES_BEGIN";
+export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
+export const FETCH_MOVIES_FAIL = "FETCH_MOVIES_FAIL";
+export const DELETE_MOVIE_FINISH = "DELETE_MOVIE_FINISH";
 export const FILTERS_CHANGE = "FILTERS_CHANGE";
 export const FETCH_LIST_MOVIE_BEGIN = "FETCH_LIST_MOVIE_BEGIN";
 export const GET_LIST_MOVIE_SUCCESS = "GET_LIST_MOVIE_SUCCESS";
 export const FETCH_LIST_MOVIE_FAIL = "FETCH_LIST_MOVIE_FAIL";
-export const FETCH_POPULAR_MOVIE_BEGIN = "FETCH_POPULAR_MOVIE_BEGIN";
-export const GET_POPULAR_MOVIE_SUCCESS = "GET_POPULAR_MOVIE_SUCCESS";
-export const FETCH_POPULAR_MOVIE_FAIL = "FETCH_POPULAR_MOVIE_FAIL";
