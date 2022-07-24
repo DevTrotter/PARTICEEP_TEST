@@ -2,14 +2,13 @@ import React from "react";
 import StyledCard from "./StyledCard";
 import Img404 from "../../assets/images/404_movie.png";
 import { IoClose } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteMovie } from "../../redux/action/movieAction/movieAction";
 
 export const Card = ({ id, title, category, listMovie }) => {
   const dispatch = useDispatch();
-  const { allMovies } = useSelector((state) => state.movies);
   const handleClick = () => {
-    dispatch(deleteMovie(id, allMovies));
+    dispatch(deleteMovie(id));
   };
 
   return (

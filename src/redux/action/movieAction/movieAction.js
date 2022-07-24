@@ -26,105 +26,28 @@ export const getMovies = () => async (dispatch) => {
   }
 };
 
-export const deleteMovie = (idMovie, allMovies) => async (dispatch) => {
+export const deleteMovie = (idMovie) => async (dispatch, getState) => {
+  const { allMovies } = getState().movies;
   const newAllMovies = allMovies.filter((movie) => movie.id !== idMovie);
 
   dispatch({
-    type: DELETE_MOVIE_FINISH,
+    type: DELETE_MOVIE_SUCCESS,
     payload: newAllMovies,
   });
 };
 
-export const sortFetch = (filters, allMovies) => async () => {
-  Object.entries(filters).map(([type, value]) => {
-    if (type === "genderBy") {
-      switch (value) {
-        case "Action":
-          const idActionMovie = 28;
-          allMovies = allMovies.filter((movie) =>
-            movie.genre_ids.find((id) => id === idActionMovie)
-          );
-          break;
-        case "Horreur":
-          const idHorrorMovie = 27;
-          allMovies = allMovies.filter((movie) =>
-            movie.genre_ids.find((id) => id === idHorrorMovie)
-          );
-          break;
-        case "Amour":
-          const idLoveMovie = 10749;
-          allMovies = allMovies.filter((movie) =>
-            movie.genre_ids.find((id) => id === idLoveMovie)
-          );
-          break;
-        default:
-          return null;
-      }
-    }
-    if (type === "sortBy") {
-      if (value === "Ordre alphabétique") {
-        allMovies.sort((a, b) =>
-          a.original_title < b.original_title ? -1 : 1
-        );
-      }
-    }
-  });
-  return allMovies;
-};
-
-export const switchSort = (value, type, filters) => async (dispatch) => {
-  let allMovies = await dispatch(getMovies());
-  filters = {
-    ...filters,
-    [type]: value,
-  };
-  Object.entries(filters).map(([type, value]) => {
-    if (type === "genderBy") {
-      switch (value) {
-        case "Action":
-          const idActionMovie = 28;
-          allMovies = allMovies.filter((movie) =>
-            movie.genre_ids.find((id) => id === idActionMovie)
-          );
-          break;
-        case "Horreur":
-          const idHorrorMovie = 27;
-          allMovies = allMovies.filter((movie) =>
-            movie.genre_ids.find((id) => id === idHorrorMovie)
-          );
-          break;
-        case "Amour":
-          const idLoveMovie = 10749;
-          allMovies = allMovies.filter((movie) =>
-            movie.genre_ids.find((id) => id === idLoveMovie)
-          );
-          break;
-        default:
-          return null;
-      }
-    }
-    if (type === "sortBy") {
-      if (value === "Ordre alphabétique") {
-        allMovies.sort((a, b) =>
-          a.original_title < b.original_title ? -1 : 1
-        );
-      }
-    }
-  });
+export const likeMovie = (movie, type) => async (dispatch, getState) => {
+  const { liked } = getState().movies;
+  movie = { ...movie, type: type };
+  liked.push(movie);
   dispatch({
-    type: FILTERS_CHANGE,
-    payload: {
-      filters,
-      array: allMovies,
-    },
+    type: LIKE_MOVIE_SUCESS,
+    payload: liked,
   });
 };
 
 export const FETCH_MOVIES_BEGIN = "FETCH_MOVIES_BEGIN";
 export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
 export const FETCH_MOVIES_FAIL = "FETCH_MOVIES_FAIL";
-export const DELETE_MOVIE_FINISH = "DELETE_MOVIE_FINISH";
-export const FILTERS_CHANGE = "FILTERS_CHANGE";
-export const FETCH_LIST_MOVIE_BEGIN = "FETCH_LIST_MOVIE_BEGIN";
-export const GET_LIST_MOVIE_SUCCESS = "GET_LIST_MOVIE_SUCCESS";
-export const FETCH_LIST_MOVIE_FAIL = "FETCH_LIST_MOVIE_FAIL";
+export const DELETE_MOVIE_SUCCESS = "DELETE_MOVIE_SUCCESS";
+export const LIKE_MOVIE_SUCESS = "LIKE_MOVIE_SUCESS";

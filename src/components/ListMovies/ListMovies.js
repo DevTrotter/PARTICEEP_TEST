@@ -4,7 +4,6 @@ import { Card } from "../Card/Card";
 
 export const ListMovies = () => {
   const { allMovies } = useSelector((state) => state.movies);
-  console.log(allMovies);
 
   return (
     <StyledListMovies>
