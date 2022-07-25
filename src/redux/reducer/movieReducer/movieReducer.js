@@ -4,6 +4,7 @@ import {
   FETCH_MOVIES_FAIL,
   DELETE_MOVIE_SUCCESS,
   LIKE_MOVIE_SUCESS,
+  FILTER_MOVIE_SUCESS,
 } from "../../action/movieAction/movieAction";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
     genderBy: "Tous",
     sortBy: "None",
   },
+  genderArray: [],
   liked: [],
   mostPopular: [],
   loading: false,
@@ -25,6 +27,7 @@ export default (state = initialState, action) => {
         loading: false,
         mostPopular: action.payload.bestMovies,
         allMovies: action.payload.movies,
+        genderArray: action.payload.category,
       };
     case FETCH_MOVIES_BEGIN:
       return {
@@ -46,7 +49,14 @@ export default (state = initialState, action) => {
     case LIKE_MOVIE_SUCESS:
       return {
         ...state,
-        liked: action.payload,
+        allMovies: action.payload.newAllMovies,
+        liked: action.payload.newLikedMovies,
+      };
+    case FILTER_MOVIE_SUCESS:
+      return {
+        ...state,
+        filters: { ...state.filters, genderBy: action.payload.category },
+        allMovies: action.payload.newAllMovies,
       };
     default:
       return state;

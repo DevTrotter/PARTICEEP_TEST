@@ -5,8 +5,8 @@ const StyledCard = styled.div`
   position: relative;
 
   :hover {
-    button {
-      opacity: 1;
+    .container-hover {
+      display: flex;
     }
   }
 
@@ -40,7 +40,6 @@ const StyledCard = styled.div`
   }
 
   button {
-    opacity: 0;
     position: absolute;
     top: -8px;
     right: -8px;
@@ -53,6 +52,7 @@ const StyledCard = styled.div`
     border: #ffffff 1px solid;
     border-radius: 50%;
     transition: 300ms;
+    z-index: 2;
     cursor: pointer;
     svg {
       width: 12px;
@@ -63,6 +63,13 @@ const StyledCard = styled.div`
 
   button:hover {
     background-color: #0d1e38;
+  }
+
+  .container-hover {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
   }
 `;
 export default StyledCard;

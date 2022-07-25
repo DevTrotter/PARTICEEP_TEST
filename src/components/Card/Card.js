@@ -4,8 +4,9 @@ import Img404 from "../../assets/images/404_movie.png";
 import { IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { deleteMovie } from "../../redux/action/movieAction/movieAction";
+import { LikeMenu } from "../LikeMenu/LikeMenu";
 
-export const Card = ({ id, title, category, listMovie }) => {
+export const Card = ({ id, category, title, likes, dislikes, listMovie }) => {
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(deleteMovie(id));
@@ -19,9 +20,12 @@ export const Card = ({ id, title, category, listMovie }) => {
         <span>{category}</span>
       </div>
       {listMovie && (
-        <button onClick={handleClick}>
-          <IoClose />
-        </button>
+        <div className="container-hover">
+          <button onClick={handleClick}>
+            <IoClose />
+          </button>
+          <LikeMenu id={id} likes={likes} dislikes={dislikes} />
+        </div>
       )}
     </StyledCard>
   );
