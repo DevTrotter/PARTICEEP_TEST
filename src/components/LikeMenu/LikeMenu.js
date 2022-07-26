@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StyledLikeMenu from "./StyledLikeMenu";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   AiOutlineLike,
   AiOutlineDislike,
@@ -12,12 +12,20 @@ import { likeMovie } from "../../redux/action/movieAction/movieAction";
 
 export const LikeMenu = ({ id, likes, dislikes }) => {
   const dispatch = useDispatch();
+  const { liked } = useSelector((state) => state.movies);
   const likeGauge = Math.round((likes / (likes + dislikes)) * 100) + "%";
   const [like, setLike] = useState(null);
   const handleClick = (like) => {
     setLike(like);
     dispatch(likeMovie(id, like));
   };
+
+  useEffect(() => {
+    const findLiked = liked.find((movie) => movie.id === id);
+    if (!!findLiked) {
+      setLike(findLiked.type);
+    }
+  }, []);
   return (
     <StyledLikeMenu likeGauge={likeGauge}>
       <h1>Un Avis ?</h1>

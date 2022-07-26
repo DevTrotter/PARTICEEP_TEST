@@ -3,15 +3,19 @@ import {
   GET_MOVIES_SUCCESS,
   FETCH_MOVIES_FAIL,
   DELETE_MOVIE_SUCCESS,
-  LIKE_MOVIE_SUCESS,
-  FILTER_MOVIE_SUCESS,
+  LIKE_MOVIE_SUCCESS,
+  FILTER_MOVIE_SUCCESS,
+  CHANGE_ELEMENT_PER_PAGE_SUCCESS,
+  CHANGE_PAGE,
 } from "../../action/movieAction/movieAction";
 
 const initialState = {
   allMovies: [],
-  filters: {
-    genderBy: "Tous",
-    sortBy: "None",
+  displayMovies: [],
+  filter: "Tous",
+  pagination: {
+    page: 0,
+    elementsPerPage: 12,
   },
   genderArray: [],
   liked: [],
@@ -21,14 +25,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_MOVIES_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        mostPopular: action.payload.bestMovies,
-        allMovies: action.payload.movies,
-        genderArray: action.payload.category,
-      };
     case FETCH_MOVIES_BEGIN:
       return {
         ...state,
@@ -41,22 +37,48 @@ export default (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+    case GET_MOVIES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        mostPopular: action.payload.bestMovies,
+        genderArray: action.payload.category,
+        allMovies: action.payload.displayMovies,
+      };
     case DELETE_MOVIE_SUCCESS:
       return {
         ...state,
-        allMovies: action.payload,
+        allMovies: action.payload.newAllMovies,
+        displayMovies: action.payload.newDisplayMovies,
+        genderArray: action.payload.category,
       };
-    case LIKE_MOVIE_SUCESS:
+    case LIKE_MOVIE_SUCCESS:
       return {
         ...state,
-        allMovies: action.payload.newAllMovies,
+        displayMovies: action.payload.newDisplayMovies,
         liked: action.payload.newLikedMovies,
       };
-    case FILTER_MOVIE_SUCESS:
+    case FILTER_MOVIE_SUCCESS:
       return {
         ...state,
-        filters: { ...state.filters, genderBy: action.payload.category },
-        allMovies: action.payload.newAllMovies,
+        filter: action.payload,
+      };
+    case CHANGE_ELEMENT_PER_PAGE_SUCCESS:
+      return {
+        ...state,
+        pagination: {
+          page: action.payload.initPage,
+          elementsPerPage: action.payload.newElementPerPage,
+        },
+        displayMovies: action.payload.newDisplayMovies,
+      };
+    case CHANGE_PAGE:
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          page: action.payload,
+        },
       };
     default:
       return state;

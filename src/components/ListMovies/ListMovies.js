@@ -1,14 +1,17 @@
 import StyledListMovies from "./StyledListMovies";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../Card/Card";
+import { useEffect } from "react";
+import { changeElementPerPage } from "../../redux/action/movieAction/movieAction";
 
 export const ListMovies = () => {
-  const { allMovies } = useSelector((state) => state.movies);
-
+  const { displayMovies, pagination } = useSelector((state) => state.movies);
+  const { page } = pagination;
+  const pageMovies = displayMovies.filter((movie) => movie.page === page);
   return (
     <StyledListMovies>
-      {allMovies.length !== 0 ? (
-        allMovies?.map((movie) => <Card key={movie.id} {...movie} listMovie />)
+      {displayMovies.length !== 0 ? (
+        pageMovies?.map((movie) => <Card key={movie.id} {...movie} listMovie />)
       ) : (
         <h1>Pas de film à afficher 😔</h1>
       )}

@@ -79,7 +79,6 @@ const StyledFilter = styled.div`
       display: flex;
       align-items: center;
       justify-content: start;
-      margin-left: 36px;
     }
   }
 
@@ -87,9 +86,6 @@ const StyledFilter = styled.div`
     .param {
       flex-direction: column;
       align-items: flex-start;
-    }
-    .container-filter:nth-last-child(2) {
-      margin-left: 0;
     }
   }
 
@@ -108,7 +104,6 @@ const StyledFilter = styled.div`
         display: flex;
         align-items: center;
         justify-content: start;
-        margin-left: 0px;
       }
     }
   }

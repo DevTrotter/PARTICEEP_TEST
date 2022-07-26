@@ -4,60 +4,53 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { useDispatch, useSelector } from "react-redux";
-import { getFilterListMovie } from "../../redux/action/movieAction/movieAction";
+import {
+  changeElementPerPage,
+  changePage,
+  getFilterListMovie,
+} from "../../redux/action/movieAction/movieAction";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const { filters, genderArray } = useSelector((state) => state.movies);
-  const { genderBy, sortBy } = filters;
+  const { filter, genderArray, pagination, allMovies } = useSelector(
+    (state) => state.movies
+  );
 
   const handleFilterChange = (e) => {
     dispatch(getFilterListMovie(e.target.value));
   };
 
-  const handleSortChange = (e) => {
-    console.log(e.target.value);
+  const handlePaginationChange = (e) => {
+    dispatch(changeElementPerPage(e.target.value, allMovies));
+  };
+
+  const handleClick = (direction) => {
+    direction === "next"
+      ? dispatch(changePage(pagination.page + 1))
+      : dispatch(changePage(pagination.page - 1));
   };
   return (
     <StyledFilter>
       <h1>Tous les films</h1>
       <div className="param">
         <div className="container-select">
-          <div className="container-sort">
-            <h2>Trier par :</h2>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <Select
-                className="selector"
-                style={{ width: "150px", height: "40px" }}
-                value={sortBy}
-                onChange={(e) => handleSortChange(e)}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem value="None">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={"Ordre alphabétique"}>
-                  Ordre alphabétique
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </div>
           <div className="container-filter">
             <h2>Filtrer par :</h2>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <Select
                 className="selector"
                 style={{ width: "96px", height: "40px" }}
-                value={genderBy}
+                value={filter}
                 onChange={(e) => handleFilterChange(e)}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
               >
                 <MenuItem value={"Tous"}>Tous</MenuItem>
                 {genderArray.map((cat) => (
-                  <MenuItem value={cat}>{cat}</MenuItem>
+                  <MenuItem key={cat} value={cat}>
+                    {cat}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -70,8 +63,8 @@ export const Filter = () => {
               <Select
                 className="selector"
                 style={{ width: "96px", height: "40px" }}
-                value={""}
-                onChange={""}
+                value={pagination.elementsPerPage}
+                onChange={(e) => handlePaginationChange(e)}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
               >
@@ -82,8 +75,8 @@ export const Filter = () => {
             </FormControl>
           </div>
           <div className="container-arrow">
-            <IoIosArrowBack />
-            <IoIosArrowForward />
+            <IoIosArrowBack onClick={() => handleClick("prev")} />
+            <IoIosArrowForward onClick={() => handleClick("next")} />
           </div>
         </div>
       </div>
